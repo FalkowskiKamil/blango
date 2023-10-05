@@ -42,9 +42,11 @@ class Dev(Configuration):
         "blog",
         "crispy_forms",
         "crispy_bootstrap5",
+        "debug_toolbar"
     ]
 
     MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
@@ -130,11 +132,16 @@ class Dev(Configuration):
 
     DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-    # Codio settings
+    ## Codio settings
 
+    # Toolbar
+    INTERNAL_IPS = ["127.0.0.1"]
+
+    # Crispy Template
     CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
     CRISPY_TEMPLATE_PACK = "bootstrap5"
 
+    # Logging
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -174,6 +181,7 @@ class Dev(Configuration):
         },
     }
 
+    # Argon2
     PASSWORD_HASHERS = [
       'django.contrib.auth.hashers.Argon2PasswordHasher',
       'django.contrib.auth.hashers.PBKDF2PasswordHasher',
