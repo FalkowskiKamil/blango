@@ -14,6 +14,7 @@ from pathlib import Path
 from configurations import Configuration, values
 import dj_database_url
 
+
 class Dev(Configuration):
     # Build paths inside the project like this: BASE_DIR / 'subdir'.
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +30,6 @@ class Dev(Configuration):
 
     ALLOWED_HOSTS = []
 
-
     # Application definition
 
     INSTALLED_APPS = [
@@ -38,12 +38,17 @@ class Dev(Configuration):
         "django.contrib.contenttypes",
         "django.contrib.sessions",
         "django.contrib.messages",
+        "django.contrib.sites",
         "django.contrib.staticfiles",
         "blango_auth",
         "blog",
         "crispy_forms",
         "crispy_bootstrap5",
         "debug_toolbar",
+        "allauth",
+        "allauth.account",
+        "allauth.socialaccount",
+        "allauth.socialaccount.providers.google",
     ]
 
     MIDDLEWARE = [
@@ -55,6 +60,7 @@ class Dev(Configuration):
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "allauth.account.middleware.AccountMiddleware"
     ]
 
     ROOT_URLCONF = "blango.urls"
@@ -77,18 +83,16 @@ class Dev(Configuration):
 
     WSGI_APPLICATION = "blango.wsgi.application"
 
-
     # Database
     # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
     DATABASES = {
-    "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
-    "alternative": dj_database_url.config(
-        "ALTERNATIVE_DATABASE_URL",
-        default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
-    ),
+        "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
+        "alternative": dj_database_url.config(
+            "ALTERNATIVE_DATABASE_URL",
+            default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
+        ),
     }
-
 
     # Password validation
     # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -108,7 +112,6 @@ class Dev(Configuration):
         },
     ]
 
-
     # Internationalization
     # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -121,7 +124,6 @@ class Dev(Configuration):
     USE_L10N = True
 
     USE_TZ = True
-
 
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -136,6 +138,12 @@ class Dev(Configuration):
 
     ## Codio settings
 
+    # OAuth
+    SITE_ID = 1
+    ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_USERNAME_REQUIRED = False
+    ACCOUNT_AUTHENTICATION_METHOD = "email"
     # Two-step Activation
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -191,14 +199,14 @@ class Dev(Configuration):
 
     # Argon2
     PASSWORD_HASHERS = [
-      'django.contrib.auth.hashers.Argon2PasswordHasher',
-      'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-      'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-      'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+        "django.contrib.auth.hashers.Argon2PasswordHasher",
+        "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+        "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+        "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
     ]
+
 
 class Prod(Dev):
     DEBUG = values.BooleanValue(True)
     SECRET_KEY = values.SecretValue()
     ALLOWED_HOSTS = values.ListValue(["localhost", "0.0.0.0", ".codio.io"])
-
