@@ -39,10 +39,11 @@ class Dev(Configuration):
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
+        "blango_auth",
         "blog",
         "crispy_forms",
         "crispy_bootstrap5",
-        "debug_toolbar"
+        "debug_toolbar",
     ]
 
     MIDDLEWARE = [
@@ -133,6 +134,9 @@ class Dev(Configuration):
     DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
     ## Codio settings
+
+    # Custom User model
+    AUTH_USER_MODEL = "blango_auth.User"
 
     # Toolbar
     INTERNAL_IPS = ["127.0.0.1"]
