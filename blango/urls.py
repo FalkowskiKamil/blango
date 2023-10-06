@@ -23,7 +23,6 @@ from django.urls import path, include
 
 import blog.views
 import blango_auth.views
-from blog.api_views import post_detail, post_list
 
 urlpatterns = [
     path("admin/", admin.site.urls),
