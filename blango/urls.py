@@ -23,6 +23,7 @@ from django.urls import path, include
 
 import blog.views
 import blango_auth.views
+from blog.api_views import post_detail, post_list
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -31,10 +32,11 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/profile/", blango_auth.views.profile, name="profile"),
     path("accounts/register/",
-    RegistrationView.as_view(form_class=BlangoRegistrationForm),
-    name="django_registration_register",),
+        RegistrationView.as_view(form_class=BlangoRegistrationForm),
+        name="django_registration_register",),
     path("accounts/", include("django_registration.backends.activation.urls")),
     path("accounts/", include("allauth.urls")),
+    path("api/v1/", include("blog.api_urls")),
 ]
 
 if settings.DEBUG:
