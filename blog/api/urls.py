@@ -10,7 +10,7 @@ from blog.api.views import UserDetail, TagViewSet, PostViewSet
 
 router = DefaultRouter()
 router.register("tags", TagViewSet)
-
+router.register("posts", PostViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -45,4 +45,3 @@ urlpatterns += [
     ),
     path("", include(router.urls)),
 ]
-router.register("posts", PostViewSet)
